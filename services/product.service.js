@@ -1,33 +1,44 @@
-const sequelize = require("../libs/sequelize")
+const { models } = require("../libs/sequelize");
 
 class ProductsService{
 
   constructor(){ }
 
-  /* async create(data){
-    //return data;
-  } */
+  async create(data){
+    const newProduct = await models.Product.create(data);
+    return newProduct;
+  }
 
   async find(){
-    const query = "SELECT * FROM public.product";
-    const [data] = await sequelize.query(query);
+    const data = await models.Product.findAll();
     return data;
   }
-/*
+
   async findOne(id){
-    const cliente = await getConnection();
-    const rta = await cliente.query(`SELECT * FROM public.product where product_id = ${id}`);
-    //return await this.find().find(item => item.id === id);
-    return rta.rows;
+    const product = await models.Product.findByPk(id);
+    if(!product){
+      throw "User not found";
+    }
+    return product;
   }
 
-  async update(data) {
-
+  async update(id,data) {
+    const product = await models.Product.findByPk(id);
+    if(!product){
+      throw "User not found";
+    }
+    const res = product.update(data);
+    return res;
   }
 
   async delete(id) {
-
-  } */
+    const product = await models.Product.findByPk(id);
+    if(!product){
+      throw "User not found";
+    }
+    await product.destroy(id);
+    return {id};
+  }
 }
 
 module.exports = ProductsService;

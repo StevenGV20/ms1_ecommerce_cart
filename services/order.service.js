@@ -1,32 +1,43 @@
-const pool = require("../libs/postgres.pool")
+const { models } = require("../libs/sequelize");
 
 class OrderService{
 
-  constructor(){
-    this.pool = pool;
-    this.pool.on("error", (err)=> console.error(err));
-  }
+  constructor(){ }
 
   async create(data){
-
+    const newOrder = await models.Order.create(data);
+    return newOrder;
   }
 
   async find(){
-    const query = "SELECT * FROM public.orders";
-    const rta = await this.pool.query(query);
-    return rta.rows;
+    const data = await models.Order.findAll();
+    return data;
   }
 
   async findOne(id){
-    return this.find().find(item => item.id === id);
+    const order = await models.Order.findByPk(id);
+    if(!order){
+      throw "User not found";
+    }
+    return order;
   }
 
-  async update(data) {
-
+  async update(id,data) {
+    const order = await models.Order.findByPk(id);
+    if(!order){
+      throw "User not found";
+    }
+    const res = order.update(data);
+    return res;
   }
 
   async delete(id) {
-
+    const order = await models.Order.findByPk(id);
+    if(!order){
+      throw "User not found";
+    }
+    await order.destroy(id);
+    return {id};
   }
 }
 
