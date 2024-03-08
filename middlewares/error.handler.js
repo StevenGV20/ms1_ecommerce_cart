@@ -7,14 +7,14 @@ function logErrors(error,req,res,next){
 }
 
 function ormErrorHandler(error,req,res,next){
-  if(err instanceof ValidationError){
+  if(error instanceof ValidationError){
     res.status(409).json({
       statusCode: 409,
       message: error.name,
-      errors: err.errors
+      errors: error.errors
     });
   }
-  next(err);
+  next(error);
 }
 
 function errorHandler(error,req,res,next){

@@ -1,6 +1,7 @@
 const express = require("express");
 const OrderService = require("./../services/order.service")
-
+const {createOrderSchema,getOrderSchema,updateOrderSchema} = require("./../schemas/order.schema");
+const validationHandler = require("./../middlewares/validation.handler")
 const router = express.Router();
 
 const service = new OrderService();
@@ -14,10 +15,43 @@ router.get("/",async (req,res,next)=>{
   }
 });
 
-router.get("/:id",async (req,res)=>{
-  const {id} = req.params;
-  const order = await service.findOne(id)
-  res.json(order)
+router.get("/:id",
+  validationHandler(getOrderSchema,'params'),
+  async (req,res)=>{
+    const {id} = req.params;
+    const order = await service.findOne(id)
+    res.json(order)
+});
+
+router.post("/",
+  validationHandler(createOrderSchema,'body'),
+  async(req,res,next) => {
+    try {
+      const order = await service.create(req.body);
+      res.json(order);
+    } catch (error) {
+      next(error);
+    }
+})
+
+router.put("/:id",
+  validationHandler(updateOrderSchema,'body'),
+  async(req,res,next) => {
+    try {
+      const order = await service.update(req.params.id,req.body);
+      res.json(order);
+    } catch (error) {
+      next(error);
+    }
+})
+
+router.delete("/:id", async(req,res,next) => {
+  try {
+    const id = await service.delete(req.params.id);
+    res.json(id);
+  } catch (error) {
+    next(error);
+  }
 })
 
 module.exports = router;

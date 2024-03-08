@@ -8,6 +8,8 @@ const CustomerSchema = {
     field: "customer_id",
     type: DataTypes.INTEGER,
     unique: true,
+    primaryKey: true,
+    autoIncrement: false,
   },
   customerName:{
     allowNull: false,
@@ -18,8 +20,11 @@ const CustomerSchema = {
 
 
 class Customer extends Model{
-  static associate(){
-
+  static associate(models){
+    this.hasMany(models.Order,{
+      as: "orders",
+      foreignKey: "customerId"
+    })
   }
 
   static config(sequelize){

@@ -7,6 +7,7 @@ const OrdersSchema = {
   orderId:{
     allowNull: false,
     primaryKey: true,
+    autoIncrement: true,
     field: "order_id",
     type: DataTypes.INTEGER
   },
@@ -36,7 +37,10 @@ const OrdersSchema = {
 
 class Orders extends Model{
   static associate(models){
-    this.belongsTo(models.Customer,{as:"customer"})
+    this.belongsTo(models.Customer,{
+      as: "customer",
+      foreignKey: 'customerId',
+    });
   }
 
   static config(sequelize){

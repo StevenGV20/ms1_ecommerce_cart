@@ -16,7 +16,7 @@ router.get("/",async (req,res,next)=>{
 });
 
 router.get("/:id",
-  validationHandler(getCustomerSchema,"params"),
+  validationHandler(getCustomerSchema,"params.id"),
   async (req,res,next)=>{
     try {
       const customers = await service.findOne(req.params.id);

@@ -11,7 +11,9 @@ class OrderService{
   }
 
   async find(){
-    const data = await models.Order.findAll();
+    const data = await models.Order.findAll({
+      include: ['customer']
+    });
     return data;
   }
 
