@@ -3,6 +3,12 @@ const { Model, DataTypes, Sequelize } = require("sequelize");
 const ORDER_ITEM_TABLE = 'orders_items';
 
 const OrderItemsSchema = {
+  id:{
+    allowNull: false,
+    primaryKey:true,
+    autoIncrement:true,
+    type: DataTypes.INTEGER,
+  },
   orderId:{
     allowNull: false,
     field: "order_id",
@@ -18,10 +24,10 @@ const OrderItemsSchema = {
     allowNull: false,
     type: DataTypes.INTEGER
   },
-  totalAmount:{
+  amount:{
     allowNull: false,
     field: "total_amount",
-    type: DataTypes.INTEGER
+    type: DataTypes.DOUBLE
   }
 }
 
@@ -29,8 +35,8 @@ const OrderItemsSchema = {
 
 class OrderItems extends Model{
   static associate(models){
-    this.belongsTo(models.Product, {foreignKey: "product_id", targetKey:"productId"});
-    this.belongsTo(models.Orders, {foreignKey: "order_Id", targetKey:"orderId"});
+    /* this.belongsTo(models.Product, {foreignKey: "product_id", targetKey:"productId"});
+    this.belongsTo(models.Orders, {foreignKey: "order_Id", targetKey:"orderId"}); */
   }
 
   static config(sequelize){

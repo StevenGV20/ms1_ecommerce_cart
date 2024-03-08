@@ -31,6 +31,17 @@ const OrdersSchema = {
     type: DataTypes.DATE,
     field: "created_at",
     defaultValue: Sequelize.NOW
+  },
+  totalAmount:{
+    type: DataTypes.VIRTUAL,
+    get(){
+      if(this.items.length > 0){
+        return this.items.reduce((total, item) => {
+          return total + (item.amount);
+        },0);
+      }
+      return 0;
+    }
   }
 }
 
@@ -40,6 +51,12 @@ class Orders extends Model{
     this.belongsTo(models.Customer,{
       as: "customer",
       foreignKey: 'customerId',
+    })
+    this.belongsToMany(models.Product,{
+      as: "orderItems",
+      through: models.OrderItem,
+      foreignKey: "orderId",
+      otherKey: "productId"
     });
   }
 
