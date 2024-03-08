@@ -1,11 +1,8 @@
-const pool = require("../libs/postgres.pool")
+const sequelize = require("../libs/sequelize")
 
 class ProductsService{
 
-  constructor(){
-    this.pool = pool;
-    this.pool.on("error", (err)=> console.error(err));
-  }
+  constructor(){ }
 
   /* async create(data){
     //return data;
@@ -13,8 +10,8 @@ class ProductsService{
 
   async find(){
     const query = "SELECT * FROM public.product";
-    const rta = await this.pool.query(query);
-    return rta.rows;
+    const [data] = await sequelize.query(query);
+    return data;
   }
 /*
   async findOne(id){
