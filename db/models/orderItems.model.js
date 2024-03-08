@@ -1,6 +1,4 @@
 const { Model, DataTypes, Sequelize } = require("sequelize");
-const { Orders } = require("./order.model");
-const { Product } = require("./product.model");
 
 const ORDER_ITEM_TABLE = 'orders_items';
 
@@ -30,8 +28,9 @@ const OrderItemsSchema = {
 
 
 class OrderItems extends Model{
-  static associate(){
-
+  static associate(models){
+    this.belongsTo(models.Product, {foreignKey: "product_id", targetKey:"productId"});
+    this.belongsTo(models.Orders, {foreignKey: "order_Id", targetKey:"orderId"});
   }
 
   static config(sequelize){
@@ -44,8 +43,5 @@ class OrderItems extends Model{
   }
 
 }
-
-OrderItems.belongsTo(Product, {foreignKey: "product_id", targetKey:"productId"});
-OrderItems.belongsTo(Orders, {foreignKey: "order_Id", targetKey:"orderId"});
 
 module.exports = { ORDER_ITEM_TABLE, OrderItemsSchema, OrderItems};

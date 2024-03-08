@@ -18,7 +18,7 @@ class OrderService{
   async findOne(id){
     const order = await models.Order.findByPk(id);
     if(!order){
-      throw boom.notFound("User not found");
+      throw boom.notFound("Customer not found");
     }
     return order;
   }
@@ -26,7 +26,7 @@ class OrderService{
   async update(id,data) {
     const order = await models.Order.findByPk(id);
     if(!order){
-      throw boom.notFound("User not found");
+      throw boom.notFound("Customer not found");
     }
     const res = order.update(data);
     return res;
@@ -35,7 +35,7 @@ class OrderService{
   async delete(id) {
     const order = await models.Order.findByPk(id);
     if(!order){
-      throw boom.notFound("User not found");
+      throw boom.notFound("Customer not found");
     }
     await order.destroy(id);
     return {id};

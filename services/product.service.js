@@ -18,7 +18,7 @@ class ProductsService{
   async findOne(id){
     const product = await models.Product.findByPk(id);
     if(!product){
-      throw boom.notFound("User not found");
+      throw boom.notFound("Customer not found");
     }
     return product;
   }
@@ -26,7 +26,7 @@ class ProductsService{
   async update(id,data) {
     const product = await models.Product.findByPk(id);
     if(!product){
-      throw boom.notFound("User not found");
+      throw boom.notFound("Customer not found");
     }
     const res = product.update(data);
     return res;
@@ -35,7 +35,7 @@ class ProductsService{
   async delete(id) {
     const product = await models.Product.findByPk(id);
     if(!product){
-      throw boom.notFound("User not found");
+      throw boom.notFound("Customer not found");
     }
     await product.destroy(id);
     return {id};

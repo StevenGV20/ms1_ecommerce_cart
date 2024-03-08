@@ -4,7 +4,7 @@ async function getConnection(){
   const client = new Client({
     host: "localhost",
     port: 5432,
-    user: "postgres",
+    customer: "postgres",
     password: "postgres2024",
     database: 'ecommerce_cart_db'
   });
