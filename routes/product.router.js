@@ -13,11 +13,11 @@ router.get("/",async (req,res,next)=>{
     next(error);
   }
 });
-
+/*
 router.get("/:id",async (req,res)=>{
   const {id} = req.params;
   const product = await service.findOne(id)
   res.json(product)
-})
+}) */
 
 module.exports = router;

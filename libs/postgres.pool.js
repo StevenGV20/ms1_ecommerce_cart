@@ -1,12 +1,12 @@
 const { Pool } = require("pg")
 
-const pool = new Pool({
-  host: "localhost",
-  port: 5432,
-  user: "postgres",
-  password: "postgres2024",
-  database: 'ecommerce_cart_db'
-});
-await pool.connect();
+const {config} = require('../config/config');
+
+const USER = encodeURIComponent(config.dbUser);
+const PASSWORD = encodeURIComponent(config.dbPassword);
+const URI = `postgres://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`
+
+const pool = new Pool({ connectionString: URI });
+pool.connect();
 
 module.exports = pool;

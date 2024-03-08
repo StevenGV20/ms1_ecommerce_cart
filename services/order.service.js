@@ -1,10 +1,10 @@
-
-const getConnection = require("../libs/postgres")
+const pool = require("../libs/postgres.pool")
 
 class OrderService{
 
   constructor(){
-    this.products = [];
+    this.pool = pool;
+    this.pool.on("error", (err)=> console.error(err));
   }
 
   async create(data){
@@ -12,8 +12,8 @@ class OrderService{
   }
 
   async find(){
-    const cliente = await getConnection();
-    const rta = await cliente.query("SELECT * FROM orders");
+    const query = "SELECT * FROM public.orders";
+    const rta = await this.pool.query(query);
     return rta.rows;
   }
 
