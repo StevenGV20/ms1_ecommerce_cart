@@ -3,13 +3,13 @@ const { Model, DataTypes, Sequelize } = require("sequelize");
 const PRODUCT_TABLE = 'product';
 
 const ProductSchema = {
-  id:{
+  productId:{
     allowNull: false,
     primaryKey: true,
     field: "product_id",
     type: DataTypes.INTEGER
   },
-  name:{
+  productName:{
     allowNull: false,
     field: "product_name",
     type: DataTypes.STRING

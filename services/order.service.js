@@ -1,3 +1,4 @@
+const sequelize = require("../libs/sequelize");
 const { models } = require("../libs/sequelize");
 const boom = require("@hapi/boom");
 
@@ -13,6 +14,26 @@ class OrderService{
   async addItem(data){
     const newOrderItem = await models.OrderItem.create(data);
     return newOrderItem;
+  }
+
+  async addAllitems(data){
+    let transaction;
+    try {
+      if(data.length > 0){
+        transaction = await sequelize.transaction();
+        for(const item of data){
+          await models.OrderItem.create(item);
+        }
+        await transaction.commit();
+        return data;
+      }
+      else{
+        throw boom.badRequest("La lista de los items no puede estar vacia.");
+      }
+    } catch (error) {
+      if (transaction) await transaction.rollback();
+      throw boom.conflict("Error al guardar los productos");
+    }
   }
 
   async find(){

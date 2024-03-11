@@ -25,4 +25,10 @@ function errorHandler(error,req,res,next){
   });
 }
 
-module.exports = {logErrors,errorHandler,ormErrorHandler};
+function errorRequestParams(message,res){
+  res.status(409).json({
+    message: message,
+  });
+}
+
+module.exports = {logErrors,errorHandler,ormErrorHandler,errorRequestParams};

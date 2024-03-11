@@ -35,6 +35,9 @@ class ProductsService{
     if(!product){
       throw boom.notFound("Customer not found");
     }
+    if(!data.name){
+      throw boom.conflict("Es obligatorio enviar el campo name en el body");
+    }
     const res = product.update(data);
     return res;
   }

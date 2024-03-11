@@ -38,7 +38,7 @@ router.post("/",
 })
 
 router.put("/:id",
-  validationHandler(updateCustomerSchema,'body'),
+  validationHandler(updateCustomerSchema,'params.id'),
   async(req,res,next) => {
     try {
       const customer = await service.update(req.params.id,req.body);
@@ -48,7 +48,7 @@ router.put("/:id",
     }
 })
 
-router.delete("/:id", async(req,res,next) => {
+router.delete("/:id",validationHandler(getCustomerSchema,"params.id"), async(req,res,next) => {
   try {
     const id = await service.delete(req.params.id);
     res.json(id);

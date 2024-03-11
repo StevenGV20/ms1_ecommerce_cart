@@ -17,7 +17,7 @@ router.get("/",async (req,res,next)=>{
 });
 
 router.get("/:id",
-  validationHandler(getOrderSchema,'params'),
+  validationHandler(getOrderSchema,'params.id'),
   async (req,res)=>{
     const {id} = req.params;
     const order = await service.findOne(id)
@@ -46,6 +46,16 @@ router.post("/add-item",
     }
 })
 
+router.post("/add-all-items",
+  async(req,res,next) => {
+    try {
+      const items = await service.addAllitems(req.body);
+      res.json(items);
+    } catch (error) {
+      next(error);
+    }
+});
+
 router.put("/:id",
   validationHandler(updateOrderSchema,'body'),
   async(req,res,next) => {
@@ -57,7 +67,7 @@ router.put("/:id",
     }
 })
 
-router.delete("/:id", async(req,res,next) => {
+router.delete("/:id", validationHandler(getOrderSchema,'params.id'), async(req,res,next) => {
   try {
     const id = await service.delete(req.params.id);
     res.json(id);
